@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <div class="row row-cols-4 g-2">
+        <div *ngFor="let r of list" class="col">
+            <div  class="card h-100 p-2 bg-light">
+                <h5 class="card-title">{{r.prenom}} {{r.nom}}</h5>
+                <div class="row g-2">
+                    <a [routerLink]="[r.id]" class="card-link col-6">détails</a>
+                    <a class="btn btn-primary col-2 m-1" (click)="updateCurrentItem(r.id)" data-bs-toggle="modal" data-bs-target="#create"><i class="far fa-edit"></i></a>
+                    <a class="btn btn-primary col-2 m-1" (click)="updateCurrentItem(r.id)" data-bs-toggle="modal" data-bs-target="#delete" style="background-color: red; border-color: red;"><i class="far fa-trash-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#create" (click)='resetCurrentItem()'><i class="fas fa-plus"></i></a>
+</div>
+
+<div id="create" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" *ngIf='!editMode'>Ajout d'un réalisateur</h5>
+                <h5 class="modal-title" *ngIf='editMode'>Modification d'un réalisateur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)='resetCurrentItem()'></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="realForm" (ngSubmit)="onCreateUpdateSubmit()">
+                  <div>
+                      <label for="nom" class="form-label">Nom</label>
+                      <input type="text" id="nom" class="form-control" formControlName="nom">
+                  </div>
+                  <div>
+                      <label for="prenom" class="form-label">Prénom</label>
+                      <input type="text" id="prenom" class="form-control" formControlName="prenom">
+                  </div>
+                  <div>
+                    <label for="dateNaissance" class="form-label">Date de naissance (format YYYY-MM-DD)</label>
+                    <input type="text" id="dateNaissance" class="form-control" formControlName="dateNaissance">
+                  </div>
+                  <button type="submit" class="btn btn-primary" [disabled]="realForm.invalid">Envoyer</button>
+              </form>
+
+            </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)='resetCurrentItem()'>Annuler</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)='resetCurrentItem()'>Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suppression d'un réalisateur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="resetCurrentItem()" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" (click)="onDeleteUpdateSubmit()" class="btn btn-primary" data-bs-dismiss="modal">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>

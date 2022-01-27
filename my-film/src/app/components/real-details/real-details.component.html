@@ -1,0 +1,29 @@
+<div *ngIf="exists" class="container-fluid w-50 bg-light p-2">
+    <h2>{{realisateur.prenom}} {{realisateur.nom}}</h2>
+    <div class="row row-cols-2 g-2">
+        <div class="col">id</div>
+        <div class="col">{{realisateur.id}}</div>
+        <div class="col">date de naissance</div>
+        <div class="col">{{realisateur.dateNaissance}}</div>
+        <div class="col">célébrité ?</div>
+        <div class="col">{{realisateur.celebre}}</div>
+
+        <div class="col">Films realisés</div>
+        <div *ngIf="!emptyList" class="col">
+            <p *ngFor="let f of realisateur.filmRealises">
+                <a [routerLink]="['/films/', f.id]">{{f.titre}}</a> 
+            </p>
+        </div>
+        <div *ngIf="emptyList" class="col">
+            <p>
+                Le réalisateur n'a réalisé aucun autre film.
+            </p>
+        </div>
+        
+    </div>
+</div>
+
+<div *ngIf="!exists">
+    <h1>Erreur: Réalisateur inexistant</h1>
+    <p>Le réalisateur n'existe pas !</p>
+</div>

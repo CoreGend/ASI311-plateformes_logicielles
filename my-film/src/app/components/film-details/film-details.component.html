@@ -1,0 +1,56 @@
+<div *ngIf="exists" class="container-fluid w-50 bg-light p-2">
+    <h2>{{film.titre}}</h2>
+    <div class="row row-cols-2 g-2">
+        <div class="col">id</div>
+        <div class="col">{{film.id}}</div>
+        <div class="col">duree</div>
+        <div class="col">{{film.duree}}</div>
+        <a [routerLink]="['/genre/', genre.id]" class="row row-cols-2 col-12 g-2"
+            style="color: black; text-decoration: none;">
+            <div class="col">Genre</div>
+            <div class="col">
+                <div class="row row-cols-2 g-2">
+                    <div class="col">id</div>
+                    <div class="col">{{genre.id}}</div>
+                    <div class="col">genre</div>
+                    <div class="col">{{genre.genre}}</div>
+                </div>
+            </div>
+        </a>
+        <a [routerLink]="['/reals/', realisateur.id]" class="row row-cols-2 col-12 g-2"
+            style="color: black; text-decoration: none;">
+            <div class="col">Realisateur</div>
+            <div class="col">
+                <div class="row row-cols-2 g-2">
+                    <div class="col">id</div>
+                    <div class="col">{{realisateur.id}}</div>
+                    <div class="col">prenom</div>
+                    <div class="col">{{realisateur.prenom}}</div>
+                    <div class="col">nom</div>
+                    <div class="col">{{realisateur.nom}}</div>
+                    <div class="col">date de naissance</div>
+                    <div class="col">{{realisateur.dateNaissance}}</div>
+                    <div class="col">statut célèbre</div>
+                    <div class="col">{{realisateur.celebre}}</div>
+                </div>
+            </div>
+        </a>
+        <div class="col">autres films realisés</div>
+        <div *ngIf="!emptyList" class="col">
+            <p *ngFor="let f of realisateur.filmRealises">
+                <a [routerLink]="['/films/', f.id]">{{f.titre}}</a> 
+            </p>
+        </div>
+        <div *ngIf="emptyList" class="col">
+            <p>
+                Le réalisateur n'a réalisé aucun autre film.
+            </p>
+        </div>
+        
+    </div>
+</div>
+
+<div *ngIf="!exists">
+    <h1>Erreur: Film inexistant</h1>
+    <p>Le film n'existe pas !</p>
+</div>

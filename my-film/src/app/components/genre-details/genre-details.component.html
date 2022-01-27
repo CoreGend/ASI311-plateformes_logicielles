@@ -1,0 +1,21 @@
+<div *ngIf="exists" class="container-fluid w-50 bg-light p-2">
+    <h2>{{genre.genre}}</h2>
+    <div class="row row-cols-2 g-2">
+        <div class="col">Films associés :</div>
+        <div *ngIf="!emptyList" class="col">
+            <p *ngFor="let f of films">
+                <a [routerLink]="['/films/', f.id]">{{f.titre}}</a> 
+            </p>
+        </div>
+        <div *ngIf="emptyList" class="col">
+            <p>
+                Le genre ne contient pas encore de films 
+            </p>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!exists">
+    <h1>Erreur: Genre inexistant</h1>
+    <p>Le genre n'existe pas !</p>
+</div>

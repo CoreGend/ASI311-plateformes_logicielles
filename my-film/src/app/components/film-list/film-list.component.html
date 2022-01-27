@@ -1,0 +1,82 @@
+<div class="container-fluid">
+    <div class="row row-cols-4 g-2">
+        <div *ngFor="let f of list" class="col">
+            <div  class="card h-100 p-2 bg-light">
+                <h5 class="card-title">{{f.titre}}</h5>
+                <div class="row g-2">
+                    <a [routerLink]="[f.id]" class="card-link col-6">détails</a>
+                    <a class="btn btn-primary col-2 m-1" (click)="updateCurrentItem(f.id)" data-bs-toggle="modal" data-bs-target="#create"><i class="far fa-edit"></i></a>
+                    <a class="btn btn-primary col-2 m-1" (click)="updateCurrentItem(f.id)" data-bs-toggle="modal" data-bs-target="#delete" style="background-color: red; border-color: red;"><i class="far fa-trash-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#create" (click)='resetCurrentItem()'><i class="fas fa-plus"></i></a>
+</div>  
+
+<div id="create" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" *ngIf='!editMode'>Ajout d'un film</h5>
+                <h5 class="modal-title" *ngIf='editMode'>Edition d'un film</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)='resetCurrentItem()'></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="filmForm" (ngSubmit)="onCreateUpdateSubmit()">
+                  <div>
+                      <label for="titreFilm" class="form-label">Titre</label>
+                      <input type="text" id="titreFilm" class="form-control" formControlName="titre">
+                  </div>
+                  <div>
+                      <label for="dureeFilm" class="form-label">Durée</label>
+                      <input type="number" id="dureeFilm" class="form-control" formControlName="duree">
+                  </div>
+                  <!-- version avant de mettre la liste déroulante
+                  <div>
+                    <label for="idReal" class="form-label">ID du réalisateur</label>
+                    <input type="number" id="idReal" class="form-control" formControlName="realisateurId">
+                  </div> -->
+                  <div class="row-cols-2">
+                    <label for="real" class="form-label">Réalisateur</label>
+                    <select name="real" id="real" formControlName="realisateurId">
+                        <option *ngFor="let real of realList" value="{{real.id}}">
+                            {{real.prenom}} {{real.nom}}
+                        </option>
+                    </select>
+                  </div>
+
+                  <div class="row-cols-2">
+                      <label for="genreId" class="form-label">Genre</label>
+                      <select name="genreId" id="genreId" formControlName="genreId">
+                          <option *ngFor="let genre of genreList" value="{{genre.id}}">
+                              {{genre.genre}}
+                          </option>
+                      </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary" [disabled]="filmForm.invalid">Envoyer</button>
+              </form>
+
+            </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)='resetCurrentItem()'>Annuler</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)='resetCurrentItem()'>Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suppression d'un film</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="resetCurrentItem()" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" (click)="onDeleteUpdateSubmit()" class="btn btn-primary" data-bs-dismiss="modal">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
